@@ -64,7 +64,7 @@ cat > ./tests/autoconfig-oci.php <<DELIM
   'adminpass' => 'admin',
   'directory' => '$BASEDIR/$DATADIR',
   'dbuser' => 'oc_autotest',
-  'dbname' => 'oc_autotest',
+  'dbname' => 'XE',
   'dbhost' => 'localhost',
   'dbpass' => 'owncloud',
 );
@@ -94,7 +94,28 @@ function execute_tests {
 		dropdb -U oc_autotest oc_autotest
 	fi
 	if [ "$1" == "oci" ] ; then
-		sqlplus / as sysdba build/oci-init.sql
+		echo "drop the database"
+		sqlplus -s -l / as sysdba <<EOF
+			drop user oc_autotest cascade;
+		EOF
+
+		echo "create the database"
+		sqlplus -s -l / as sysdba <<EOF
+			create user oc_autotest identified by owncloud;
+			alter user oc_autotest default tablespace users
+			temporary tablespace temp
+			quota unlimited on users;
+			grant create session
+			, create table
+			, create procedure
+			, create sequence
+			, create trigger
+			, create view
+			, create synonym
+			, alter session
+			to oc_autotest;
+			exit;
+		EOF
 	fi
 
 	# copy autoconfig
