@@ -54,6 +54,22 @@ cat > ./tests/autoconfig-pgsql.php <<DELIM
 );
 DELIM
 
+cat > ./tests/autoconfig-oci.php <<DELIM
+<?php
+\$AUTOCONFIG = array (
+  'installed' => false,
+  'dbtype' => 'oci',
+  'dbtableprefix' => 'oc_',
+  'adminlogin' => 'admin',
+  'adminpass' => 'admin',
+  'directory' => '$BASEDIR/$DATADIR',
+  'dbuser' => 'oc_autotest',
+  'dbname' => 'oc_autotest',
+  'dbhost' => 'localhost',
+  'dbpass' => 'owncloud',
+);
+DELIM
+
 function execute_tests {
 	echo "Setup environment for $1 testing ..."
 	# back to root folder
@@ -78,7 +94,7 @@ function execute_tests {
 		dropdb -U oc_autotest oc_autotest
 	fi
 	if [ "$1" == "oci" ] ; then
-		sqlplus system/Tfq12p2ZknzCXG4WlExIND@localhost/xe build/oci-init.sql
+		sqlplus / as sysdba build/oci-init.sql
 	fi
 
 	# copy autoconfig
