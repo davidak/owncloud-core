@@ -77,6 +77,9 @@ function execute_tests {
 	if [ "$1" == "pgsql" ] ; then
 		dropdb -U oc_autotest oc_autotest
 	fi
+	if [ "$1" == "oci" ] ; then
+		sqlplus system/Tfq12p2ZknzCXG4WlExIND@localhost/xe build/oci-init.sql
+	fi
 
 	# copy autoconfig
 	cp $BASEDIR/tests/autoconfig-$1.php $BASEDIR/config/autoconfig.php
@@ -101,9 +104,10 @@ function execute_tests {
 #
 # start test execution
 #
-execute_tests "sqlite"
-execute_tests 'mysql'
-execute_tests 'pgsql'
+#execute_tests "sqlite"
+#execute_tests 'mysql'
+#execute_tests 'pgsql'
+execute_tests 'oci'
 
 #
 # NOTES on mysql:
