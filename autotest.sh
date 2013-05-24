@@ -141,10 +141,16 @@ EOF
 #
 # start test execution
 #
-#execute_tests "sqlite"
-#execute_tests 'mysql'
-#execute_tests 'pgsql'
-execute_tests 'oci'
+if [ -z "$1" ]
+  then
+	execute_tests "sqlite"
+	execute_tests 'mysql'
+	execute_tests 'pgsql'
+	# we will add oci as soon as it's stable
+	#execute_tests 'oci'
+else
+	execute_tests $1
+fi
 
 #
 # NOTES on mysql:
@@ -157,4 +163,8 @@ execute_tests 'oci'
 #  - to enable dropdb I decided to add following line to pg_hba.conf (this is not the safest way but I don't care for the testing machine):
 # local	all	all	trust
 #
-
+# NOTES on oci:
+#  - it's a pure nightmare to install Oracle on a Linux-System
+#  - DON'T TRY THIS AT HOME!
+#  - if you really need it: we feel sorry for you
+#
