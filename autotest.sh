@@ -97,7 +97,7 @@ function execute_tests {
 		echo "drop the database"
 		sqlplus -s -l / as sysdba <<EOF
 			drop user oc_autotest cascade;
-		EOF
+EOF
 
 		echo "create the database"
 		sqlplus -s -l / as sysdba <<EOF
@@ -115,7 +115,7 @@ function execute_tests {
 			, alter session
 			to oc_autotest;
 			exit;
-		EOF
+EOF
 	fi
 
 	# copy autoconfig
